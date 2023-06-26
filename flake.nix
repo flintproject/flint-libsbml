@@ -25,7 +25,11 @@
         buildInputs = [ libxml2 ];
         checkInputs = [ check ];
         src = libsbml;
-        configureFlags = [ "--disable-compression" ];
+        configureFlags = [
+          "--disable-compression"
+          "--without-bzip2"
+          "--without-zlib"
+        ];
         # doCheck = true;
       };
 
