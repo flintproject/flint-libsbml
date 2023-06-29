@@ -21,15 +21,25 @@
       flint-libsbml = stdenv.mkDerivation {
         pname = "flint-libsbml";
         version = "3.4.1";
+
         nativeBuildInputs = [ pkg-config ];
+
         buildInputs = [ libxml2 ];
+
         checkInputs = [ check ];
+
         src = libsbml;
+
         configureFlags = [
           "--disable-compression"
           "--without-bzip2"
           "--without-zlib"
         ];
+
+        postInstall = lib.optionalString stdenv.isDarwin ''
+          install_name_tool -id $out/lib/libsbml.3.4.1.dylib $out/lib/libsbml.3.4.1.dylib
+        '';
+
         # doCheck = true;
       };
 
