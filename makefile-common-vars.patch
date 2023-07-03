@@ -1,0 +1,13 @@
+--- a/config/makefile-common-vars.mk.in	2023-06-27 00:38:19
++++ b/config/makefile-common-vars.mk.in.new	2023-07-03 23:12:04
+@@ -46,8 +46,8 @@
+ 
+ top_srcdir        = @abs_top_srcdir@
+ top_builddir      = @abs_top_builddir@
+-TOP_SRCDIR        := $(shell cd $(top_srcdir); /bin/pwd)
+-TOP_BUILDDIR      := $(shell cd $(top_builddir); /bin/pwd)
++TOP_SRCDIR        := $(shell cd $(top_srcdir); pwd)
++TOP_BUILDDIR      := $(shell cd $(top_builddir); pwd)
+ DISTDIR           = $(top_srcdir)/$(PACKAGE_TARNAME)-$(PACKAGE_VERSION)
+ VPATH             = $(srcdir)
+ 

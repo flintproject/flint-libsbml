@@ -30,6 +30,8 @@
 
         src = libsbml;
 
+        patches = [ ./makefile-common-vars.patch ];
+
         configureFlags = [
           "--disable-compression"
           "--without-bzip2"
