@@ -1,0 +1,145 @@
+diff --git a/src/sbml/ListOf.cpp b/src/sbml/ListOf.cpp
+index 4d0bf2ee4..fc6ff5dd0 100644
+--- a/src/sbml/ListOf.cpp
++++ b/src/sbml/ListOf.cpp
+@@ -46,7 +46,7 @@ ListOf::ListOf ()
+ /**
+  * Used by the Destructor to delete each item in mItems.
+  */
+-struct Delete : public unary_function<SBase*, void>
++struct Delete
+ {
+   void operator() (SBase* sb) { delete sb; }
+ };
+@@ -64,7 +64,7 @@ ListOf::~ListOf ()
+ /**
+  * Used by the Copy Constructor to clone each item in mItems.
+  */
+-struct Clone : public unary_function<SBase*, SBase*>
++struct Clone
+ {
+   SBase* operator() (SBase* sb) { return sb->clone(); }
+ };
+@@ -168,7 +168,7 @@ ListOf::get (unsigned int n)
+ /**
+  * Used by ListOf::get() to lookup an SBase based by its id.
+  */
+-struct IdEq : public unary_function<SBase*, bool>
++struct IdEq
+ {
+   const string& id;
+ 
+@@ -270,7 +270,7 @@ ListOf::size () const
+ /**
+  * Used by ListOf::setSBMLDocument().
+  */
+-struct SetSBMLDocument : public unary_function<SBase*, void>
++struct SetSBMLDocument
+ {
+   SBMLDocument* d;
+ 
+@@ -282,7 +282,7 @@ struct SetSBMLDocument : public unary_function<SBase*, void>
+ /**
+  * Used by ListOf::setParentSBMLObject().
+  */
+-struct SetParentSBMLObject : public unary_function<SBase*, void>
++struct SetParentSBMLObject
+ {
+   SBase* sb;
+ 
+@@ -352,7 +352,7 @@ ListOf::getElementName () const
+ /**
+  * Used by ListOf::writeElements().
+  */
+-struct Write : public unary_function<SBase*, void>
++struct Write
+ {
+   XMLOutputStream& stream;
+ 
+diff --git a/src/sbml/SBMLErrorLog.cpp b/src/sbml/SBMLErrorLog.cpp
+index 82d8dd31f..b2b1818ea 100644
+--- a/src/sbml/SBMLErrorLog.cpp
++++ b/src/sbml/SBMLErrorLog.cpp
+@@ -54,7 +54,7 @@ SBMLErrorLog::SBMLErrorLog ()
+ /**
+  * Used by the Destructor to delete each item in mErrors.
+  */
+-struct Delete : public unary_function<XMLError*, void>
++struct Delete
+ {
+   void operator() (XMLError* error) { delete error; }
+ };
+diff --git a/src/sbml/SBO.cpp b/src/sbml/SBO.cpp
+index b51ebae60..02020842e 100644
+--- a/src/sbml/SBO.cpp
++++ b/src/sbml/SBO.cpp
+@@ -171,7 +171,7 @@ SBO::intToString (int sboTerm)
+   * functions for checking the SBO term is from correct part of SBO
+   * Unary Functor returns the parent portion of a ParentMap pair.
+   */
+-struct GetParent : public unary_function<const pair<const int, int>, int>
++struct GetParent
+ {
+   int operator() (const pair<const int, int>& pair) { return pair.second; }
+ };
+diff --git a/src/validator/Validator.cpp b/src/validator/Validator.cpp
+index 885827316..ee057140a 100644
+--- a/src/validator/Validator.cpp
++++ b/src/validator/Validator.cpp
+@@ -59,7 +59,7 @@ using namespace std;
+  * Applies a Constraint<T> to an SBML object of type T.
+  */
+ template <typename T>
+-struct Apply : public unary_function<TConstraint<T>*, void>
++struct Apply
+ {
+   Apply (const Model& m, const T& o) : model(m), object(o) { }
+ 
+diff --git a/src/validator/constraints/CompartmentOutsideCycles.cpp b/src/validator/constraints/CompartmentOutsideCycles.cpp
+index 8eaaa64b0..f7bec4e9b 100644
+--- a/src/validator/constraints/CompartmentOutsideCycles.cpp
++++ b/src/validator/constraints/CompartmentOutsideCycles.cpp
+@@ -104,7 +104,7 @@ CompartmentOutsideCycles::checkForCycle (const Model& m, const Compartment* c)
+  * Function Object: Returns true if Compartment c is contained in the given
+  * IdList cycle.
+  */
+-struct CycleContains : public unary_function<IdList, bool>
++struct CycleContains
+ {
+   CycleContains (const Compartment* c) : id(c->getId()) { }
+ 
+diff --git a/src/validator/test/TestValidator.cpp b/src/validator/test/TestValidator.cpp
+index 1464dc57c..d6562c188 100644
+--- a/src/validator/test/TestValidator.cpp
++++ b/src/validator/test/TestValidator.cpp
+@@ -88,7 +88,7 @@ TestValidator::~TestValidator ()
+  * Function Object: Return true if the given SBMLError has the given
+  * id, false otherwise.
+  */
+-struct HasId : public unary_function<SBMLError, bool>
++struct HasId
+ {
+   unsigned int id;
+ 
+@@ -100,7 +100,7 @@ struct HasId : public unary_function<SBMLError, bool>
+ /**
+  * Function Object: Takes a SBMLError and returns its integer id.
+  */
+-struct ToId : public unary_function<SBMLError, unsigned int>
++struct ToId
+ {
+   unsigned int operator() (const SBMLError& msg) { return msg.getErrorId(); }
+ };
+diff --git a/src/xml/XMLErrorLog.cpp b/src/xml/XMLErrorLog.cpp
+index c04d39e7d..8e677852b 100644
+--- a/src/xml/XMLErrorLog.cpp
++++ b/src/xml/XMLErrorLog.cpp
+@@ -52,7 +52,7 @@ XMLErrorLog::XMLErrorLog ():mParser(NULL)
+ /**
+  * Used by the Destructor to delete each item in mErrors.
+  */
+-struct Delete : public unary_function<XMLError*, void>
++struct Delete
+ {
+   void operator() (XMLError* error) { delete error; }
+ };
