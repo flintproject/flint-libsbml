@@ -1,7 +1,7 @@
 {
   description = "A flake for building libsbml for Flint";
 
-  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-24.11;
 
   inputs.libsbml = {
     url = github:sbmlteam/libsbml/186f62fc34f5836cff0ed162aa5e8b880f22fcb1;
@@ -33,6 +33,7 @@
         patches = [
           ./patches/makefile-common-vars.patch
           ./patches/unary_function.patch
+          ./patches/libxml-getlasterror.patch
         ];
 
         configureFlags = [
